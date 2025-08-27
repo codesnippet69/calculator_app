@@ -1,46 +1,46 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    expression: "",
-    result : ""
-}
+  expression: "",
+  result: "",
+};
 
-const calcSlice= createSlice({
-initialState,
-name:"calculator",
+const calcSlice = createSlice({
+  initialState,
+  name: "calculator",
 
-reducers:{
-    appendValue : (state,actions)=>{
-        state.expression+=actions.payload
+  reducers: {
+    appendValue: (state, actions) => {
+      state.expression += actions.payload;
     },
-    clearFields : (state)=>{
-        state.expression = ""
-        state.result = ""
+    setExpression: (state, actions) => {
+      state.expression = actions.payload;
     },
-    backSpace : (state)=>{
-        state.expression=state.expression.slice(0,-1)
+    clearFields: (state) => {
+      state.expression = "";
+      state.result = "";
     },
-    evaluate : (state)=>{
-        let expr = state.expression.replace(/\^/g, "**");
+    backSpace: (state) => {
+      state.expression = state.expression.slice(0, -1);
+    },
+    evaluate: (state) => {
+      let expr = state.expression.replace(/\^/g, "**");
 
-        // Replace functions with Math equivalents
-        expr = expr.replace(/sqrt\(/g, "Math.sqrt(");
-        expr = expr.replace(/sin\(/g, "Math.sin(");
-        expr = expr.replace(/cos\(/g, "Math.cos(");
-        expr = expr.replace(/tan\(/g, "Math.tan(");
+      expr = expr.replace(/sqrt\(/g, "Math.sqrt(");
+      expr = expr.replace(/sin\(/g, "Math.sin(");
+      expr = expr.replace(/cos\(/g, "Math.cos(");
+      expr = expr.replace(/tan\(/g, "Math.tan(");
 
-        try{
-            state.result=eval(expr).toString();
-        }catch{
-            state.result = "Error"
-            state.expression = ""
-        }
-    }
+      try {
+        state.result = eval(expr).toString();
+      } catch {
+        state.result = "Error";
+        state.expression = "";
+      }
+    },
+  },
+});
 
-}
-
-
-})
-
-export const {appendValue,clearFields,backSpace,evaluate}=calcSlice.actions;
-export default calcSlice.reducer
+export const { appendValue, setExpression, clearFields, backSpace, evaluate } =
+  calcSlice.actions;
+export default calcSlice.reducer;
