@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearFields,
-  backSpace,
+  deleteAtPos,
   evaluate,
-  appendValue,
+  insertValue,
   setExpression,
 } from "../redux/slices/slices";
 import { useEffect, useRef } from "react";
@@ -41,11 +41,21 @@ function Buttons() {
     "=",
   ];
   const handleClick = (val) => {
+    const input = focus.current;
+    const pos = input.selectionStart;
     if (val == "C") {
       dispatch(clearFields());
-    } else if (val === "⌫") dispatch(backSpace());
+    } else if (val === "⌫") dispatch(deleteAtPos({ pos }));
     else if (val === "=") dispatch(evaluate());
-    else dispatch(appendValue(val));
+    else dispatch(insertValue({ value: val, pos }));
+    setTimeout(() => {
+      input.focus();
+      if (val === "⌫") {
+        input.selectionStart = input.selectionEnd = pos > 0 ? pos - 1 : 0;
+      } else if (val !== "=") {
+        input.selectionStart = input.selectionEnd = pos + val.length;
+      }
+    }, 0);
   };
 
   useEffect(() => {

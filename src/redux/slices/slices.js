@@ -10,8 +10,10 @@ const calcSlice = createSlice({
   name: "calculator",
 
   reducers: {
-    appendValue: (state, actions) => {
-      state.expression += actions.payload;
+    insertValue: (state, action) => {
+      const { value, pos } = action.payload;
+      state.expression =
+        state.expression.slice(0, pos) + value + state.expression.slice(pos);
     },
     setExpression: (state, actions) => {
       state.expression = actions.payload;
@@ -20,8 +22,12 @@ const calcSlice = createSlice({
       state.expression = "";
       state.result = "";
     },
-    backSpace: (state) => {
-      state.expression = state.expression.slice(0, -1);
+    deleteAtPos: (state, action) => {
+      const { pos } = action.payload;
+      if (pos > 0) {
+        state.expression =
+          state.expression.slice(0, pos - 1) + state.expression.slice(pos);
+      }
     },
     evaluate: (state) => {
       let expr = state.expression.replace(/\^/g, "**");
@@ -41,6 +47,11 @@ const calcSlice = createSlice({
   },
 });
 
-export const { appendValue, setExpression, clearFields, backSpace, evaluate } =
-  calcSlice.actions;
+export const {
+  insertValue,
+  setExpression,
+  clearFields,
+  deleteAtPos,
+  evaluate,
+} = calcSlice.actions;
 export default calcSlice.reducer;
