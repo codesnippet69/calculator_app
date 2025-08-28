@@ -77,25 +77,47 @@ function Buttons() {
     }
   }, []);
 
-  return (
-    <>
-      <input
-        type="text"
-        value={expression}
-        onChange={(e) => dispatch(setExpression(e.target.value))}
-        ref={focus}
-      />
-      <br />
-      <input type="text" value={result} placeholder="Result" readOnly />
+  const getButtonClasses = (val) => {
+    const base =
+      "select-none rounded-lg border transition focus:outline-none focus:ring-2 px-3 py-2 text-sm sm:text-base";
+    if (val === "=")
+      return `${base} border-neutral-300 w-54 bg-neutral-100 text-neutral-900 hover:bg-neutral-200 focus:ring-neutral-400 active:bg-neutral-300`;
+    if (val === "C" || val === "⌫")
+      return `${base} border-neutral-700 bg-neutral-700 text-neutral-100 hover:bg-neutral-600 hover:border-neutral-600 focus:ring-neutral-500 active:bg-neutral-500`;
+    return `${base} border-neutral-700 bg-neutral-800 text-neutral-100 hover:bg-neutral-700 hover:border-neutral-600 focus:ring-neutral-500 active:bg-neutral-600`;
+  };
 
-      <div className="Buttons">
-        {buttons.map((btn) => (
-          <button key={btn} onClick={() => handleClick(btn)}>
-            {btn}
-          </button>
-        ))}
+  return (
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-xs sm:max-w-sm space-y-4">
+        <input
+          type="text"
+          value={expression}
+          onChange={(e) => dispatch(setExpression(e.target.value))}
+          ref={focus}
+          className="w-full rounded-lg border border-neutral-700 bg-neutral-800 text-neutral-100 placeholder-neutral-400 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition font-mono"
+          placeholder="Enter expression"
+        />
+        <input
+          type="text"
+          value={result}
+          placeholder="Result"
+          readOnly
+          className="w-full rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-200 placeholder-neutral-500 px-4 py-3 outline-none font-mono"
+        />
+        <div className="Buttons grid grid-cols-4 sm:grid-cols-7 gap-2">
+          {buttons.map((btn) => (
+            <button
+              key={btn}
+              onClick={() => handleClick(btn)}
+              className={getButtonClasses(btn)}
+            >
+              {btn}
+            </button>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

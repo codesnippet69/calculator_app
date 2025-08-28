@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   expression: "",
   result: "",
+  history: [],
 };
 
 const calcSlice = createSlice({
@@ -38,7 +39,9 @@ const calcSlice = createSlice({
       expr = expr.replace(/tan\(/g, "Math.tan(");
 
       try {
-        state.result = eval(expr).toString();
+        const computed = eval(expr).toString();
+        state.result = computed;
+        state.history.push({ expression: state.expression, result: computed });
       } catch {
         state.result = "Error";
         state.expression = "";
