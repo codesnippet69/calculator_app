@@ -71,7 +71,7 @@ const calcSlice = createSlice({
     },
     deleteHistory: (state, action: PayloadAction<{ index: number }>) => {
       state.history = state.history.filter((_, i) => {
-        i !== action.payload.index;
+       return i !== action.payload.index;
       });
     },
     evaluate: (state) => {
