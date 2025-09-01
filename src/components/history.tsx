@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setExpression } from "../redux/slices/slices";
+import { setExpression, deleteHistory } from "../redux/slices/slices";
 import type { RootState } from "../redux/store";
 
 function History() {
@@ -23,6 +23,12 @@ function History() {
               onClick={() => dispatch(setExpression(item.expression))}
             >
               {item.expression} = {item.result}
+            </button>
+            <button
+              className="ml-3 text-xs px-2 py-1 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+              onClick={() => dispatch(deleteHistory({ index }))}
+            >
+              ✕
             </button>
           </li>
         ))}

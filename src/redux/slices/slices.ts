@@ -1,8 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-
 type HistoryItem = { expression: string; result: string };
-type customVariable ={variabel: string , value: string}
+type customVariable = { variabel: string; value: string };
 
 interface CalculatorState {
   expression: string;
@@ -27,7 +26,10 @@ const calcSlice = createSlice({
   name: "calculator",
 
   reducers: {
-    addCustomVariable: (state, action: PayloadAction<{ variabel: string; value: string }>) => {
+    addCustomVariable: (
+      state,
+      action: PayloadAction<{ variabel: string; value: string }>
+    ) => {
       const name = action.payload.variabel?.trim();
       const value = action.payload.value?.trim();
       if (!name || value === undefined || value === null) return;
@@ -45,7 +47,10 @@ const calcSlice = createSlice({
       state.tempVarName = "";
       state.tempVarValue = "";
     },
-    insertValue: (state, action: PayloadAction<{ value: string; pos: number }>) => {
+    insertValue: (
+      state,
+      action: PayloadAction<{ value: string; pos: number }>
+    ) => {
       const { value, pos } = action.payload;
       state.expression =
         state.expression.slice(0, pos) + value + state.expression.slice(pos);
@@ -63,6 +68,11 @@ const calcSlice = createSlice({
         state.expression =
           state.expression.slice(0, pos - 1) + state.expression.slice(pos);
       }
+    },
+    deleteHistory: (state, action: PayloadAction<{ index: number }>) => {
+      state.history = state.history.filter((_, i) => {
+        i !== action.payload.index;
+      });
     },
     evaluate: (state) => {
       let expr = state.expression.replace(/\^/g, "**");
@@ -99,6 +109,7 @@ const calcSlice = createSlice({
 
 export const {
   insertValue,
+  deleteHistory,
   setExpression,
   clearFields,
   deleteAtPos,
@@ -109,5 +120,3 @@ export const {
   clearTempVarInputs,
 } = calcSlice.actions;
 export default calcSlice.reducer;
-
-
