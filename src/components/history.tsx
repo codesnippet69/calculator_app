@@ -7,7 +7,7 @@ function History() {
   const dispatch = useDispatch();
 
   return (
-    <div className="history w-full max-w-md rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 text-slate-900 shadow-xl">
+    <div className="history w-full max-w-md mt-5 rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 text-slate-900 shadow-xl">
       <h3 className="text-lg font-semibold mb-3 text-slate-700">History</h3>
       {history.length === 0 && (
         <p className="text-slate-400 text-sm">No history yet</p>
