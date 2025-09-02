@@ -11,6 +11,8 @@ import {
   clearTempVarInputs,
 } from "../redux/slices/slices";
 import { useEffect, useRef, useState } from "react";
+import ExpressionInput from "./ExpressionInput";
+import ResultDisplay from "./ResultDisplay";
 import type { RootState } from "../redux/store";
 
 function Buttons() {
@@ -117,29 +119,17 @@ function Buttons() {
       <div className="w-full max-w-sm sm:max-w-md md:max-w-lg bg-white rounded-3xl shadow-xl overflow-hidden">
         <div className="bg-slate-700 text-white px-6 py-6">
           <div className="space-y-3">
-            <input
-              type="text"
+            <ExpressionInput
               value={expression}
-              onChange={(e) => {
-                dispatch(setExpression(e.target.value));
+              onChange={(val) => {
+                dispatch(setExpression(val));
                 setIsEditing(true);
               }}
               onFocus={() => setIsEditing(true)}
+              isEditing={isEditing}
               ref={focus}
-              className={`w-full rounded-xl border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-4 outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-300 transition-all duration-300 font-mono ${
-                isEditing ? "py-4 text-lg" : "py-2 text-base"
-              }`}
-              placeholder="Enter expression"
             />
-            <input
-              type="text"
-              value={result}
-              placeholder="Result"
-              readOnly
-              className={`w-full rounded-xl border border-slate-200 bg-slate-100 text-slate-800 placeholder-slate-400 px-4 outline-none font-mono transition-all duration-300 ${
-                result ? "py-4 text-lg" : "py-2 text-base"
-              }`}
-            />
+            <ResultDisplay value={result} />
             <div className="grid grid-cols-5 gap-2">
               <input
                 type="text"
